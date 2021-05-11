@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import {SteamAPI} from "../util/SteamAPI";
 
 export default class SetupPopup extends React.Component {
     constructor(props) {
@@ -27,74 +28,81 @@ export default class SetupPopup extends React.Component {
         });
     }
 
-    handleSubmit(event) {
-        this.setState({
-            button_loading: true,
-            errors: {
-                user_id: '',
-                api_key: ''
-            }
-        })
-        let err = false;
+    async handleSubmit(event) {
+        event.preventDefault();
+        this.setState({button_loading: true});
 
+        let user_id = this.state.user_id;
+        let api_key = this.state.api_key;
+
+        let err = false;
         if (this.state.user_id === '') {
             err = true;
             this.state.errors.user_id = "No user ID provided";
-        }
+        } else
+            this.state.errors.user_id = "";
 
         if (this.state.api_key === '') {
             err = true;
             this.state.errors.api_key = "No API key provided";
-        }
-
+        } else
+            this.state.errors.api_key = "";
 
         if (err)
             return this.setState({button_loading: false});
 
-        event.preventDefault();
+        let steamAPI = new SteamAPI(user_id, api_key);
+        console.log(steamAPI);
     }
 
     render() {
         return (
             <>
                 <div
-                    className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50"
+                    className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 text-gray-700"
                 >
                     <div className="relative w-auto my-6 mx-auto max-w-3xl">
-                        {/*content*/}
                         <div
                             className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white">
-                            {/*header*/}
                             <div
                                 className="flex items-start justify-between p-5 border-b">
                                 <h3 className="text-3xl font-semibold">
                                     Your info
                                 </h3>
                             </div>
-                            {/*body*/}
                             <div className="relative p-6 flex-auto">
-                                <p className="my-4 text-blueGray-500 text-lg leading-relaxed">
+                                <p className="my-4 text-blueGray-500 text-lg leading-relaxed text-left">
                                     To be able to see your stats you need to fill in your user id and also an API key.
                                     You can see how you obtain an API key <a
                                     href="https://steamcommunity.com/dev/apikey" className="underline">here</a>
                                 </p>
                                 <form>
-                                    <label htmlFor="user_id">User id:</label>
-                                    <input name="user_id" type="text" placeholder="76561198201679638"
-                                           onChange={this.handleChange} className="mx-2 border-dashed"/>
-                                    <span className='error'>{this.state.errors.user_id}</span>
-                                    <br/>
-                                    <label htmlFor="api_key"> Api key:</label>
-                                    <input name="api_key" type="text" placeholder="AAAAABBBBBBCCCCCDDDDD11111222233"
-                                           onChange={this.handleChange} className="mx-2"/>
-                                    <span className='error'>{this.state.errors.api_key}</span>
+                                    <div className="grid grid-rows-4">
+                                        <div className="grid grid-cols-2">
+                                            <label htmlFor="user_id">User id:</label>
+                                            <input name="user_id" type="text" placeholder="76561198201679638"
+                                                   onChange={this.handleChange}
+                                                   className="p-1 border-solid border-2 border-gray-700 rounded"/>
+                                            <div/>
+                                            <span className='text-red-500'>{this.state.errors.user_id}</span>
+                                        </div>
+                                        <br/>
+                                        <div className="grid grid-cols-2">
+                                            <label htmlFor="api_key"> Api key:</label>
+                                            <input name="api_key" type="text"
+                                                   placeholder="AAAAABBBBBBCCCCCDDDDD11111222233"
+                                                   onChange={this.handleChange}
+                                                   className="p-1 border-solid border-2 border-gray-700 rounded"/>
+                                            <div/>
+                                            <span className='text-red-500'>{this.state.errors.api_key}</span>
+                                        </div>
+                                    </div>
                                 </form>
                             </div>
-                            {/*footer*/}
                             <div
-                                className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
-                                <button type="button" onClick={this.handleSubmit}
-                                        className="py-2 px-4 w-full sm:w-1/6 rounded-md bg-black text-white font-bold shadow hover:shadow-lg ">
+                                className="flex items-center justify-end p-6 border-t border-solid rounded-b">
+                                <button type="button" onClick={this.handleSubmit} disabled={this.state.button_loading}
+                                        className="py-2 px-4 w-full sm:w-1/6 rounded-md bg-gray-700 text-white font-bold shadow transition duration-250 ease-in-out hover:shadow-lg hover:bg-gray-600">
                                     {this.state.button_loading ?
                                         <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
                                              xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
