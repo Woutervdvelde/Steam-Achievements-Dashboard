@@ -1,7 +1,15 @@
-import {Cookies} from "react-cookie";
-import {useEffect, useState} from "react";
-const axios = require('axios');
+import axios from "axios";
+import Cookies from 'universal-cookie';
 
+/**
+ * This is a server doing a request to the steam api
+ * Because react doesn't like to do CORS requests in the browser I use my own server
+ * How to use:
+ * You just add the entire url you would normally use to fetch the steam api
+ * except you change the `&` to `%26` because this is the HTML hex value for &
+ */
+const baseUrl = "https://woutervandervelde.com/public/index.php/api/steam?url=";
+const cookies = new Cookies();
 
 export class SteamAPI {
 
@@ -11,49 +19,78 @@ export class SteamAPI {
         user_id: '',
         api_key: ''
     }
-    constructor(user_id, api_key) {
-        this.checkApiKey(api_key);
-        this.checkUserId(user_id);
-    }
 
-    checkUserId(user_id) {
-        if (user_id.match(/[a-zA-Z]/gm)) {
-            this.user_id = this.getUserId(user_id);
-        } else {
-            this.user_id = user_id;
+    constructor() {
+        if (cookies.get('api_key') !== undefined && cookies.get('user_id') !== undefined) {
+
         }
     }
 
     async checkApiKey(api_key) {
-        //do fetch request to see if working
-        try {
-            // let res = await axios.get(`https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${api_key}&steamids=76561197960434622&format=JSON`, {
-            const response = await fetch(`https://cors-anywhere.herokuapp.com/https://api.github.com/users/hacktivist123`, {
-                crossDomain: true,
-                mode: "cors",
-                method: "GET",
-                headers: {
-                    'Access-Control-Allow-Origin': '*',
-                    'Content-Type':'application/json'
+        return new Promise(async resolve => {
+            try {
+                //trying to fetch a user profile to test the given api key
+                let url = `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${api_key}&steamids=76561197960434622&format=JSON`;
+                url = url.replace('&', '%26');
+
+                let res = await axios.get(baseUrl + url);
+                switch (res.data.status) {
+                    case 403:
+                        this.errors.api_key = "API key invalid";
+                        resolve(false);
+                        break;
+                    case 500:
+                        this.errors.api_key = "Unknown API key error, try again";
+                        resolve(false);
+                        break;
+                    case 200:
+                        this.api_key = api_key;
+                        resolve(true);
+                        break;
+                    default:
+                        this.errors.api_key = "Unknown API key error, try again";
+                        resolve(false);
+                        break;
                 }
-            });
+            } catch (e) {
+                this.errors.api_key = "Unknown API key error, try again";
+            }
+        })
+    }
 
-            // let xhr = new XMLHttpRequest();
-            // xhr.open('get', "https://woutervandervelde.com/public/index.php/reservation/get/11-05-2021");
-            // xhr.send();
+    async checkUserId(user_id) {
+        return new Promise(async resolve => {
+            if (user_id.match(/[a-zA-Z]/gm)) {
+                let vanity_id = await this.getUserId(user_id);
+                if (!vanity_id)
+                    resolve(false);
+                this.user_id = vanity_id;
+            } else
+                this.user_id = user_id;
 
-            // xhr.onload = () => {
-            //     console.log(xhr.response);
-            // }
-        } catch (e) {
-            console.error(e);
-        }
+            let info = await this.getUserInfo(this.user_id);
+            if (!info) {
+                this.errors.user_id = "Invalid user ID";
+                resolve(false);
+            }
 
-        this.api_key = api_key;
+        })
     }
 
     getUserId(name) {
         //https://wiki.teamfortress.com/wiki/WebAPI/ResolveVanityURL#URL
-        return 76561197960434622 //me
+        return new Promise(async resolve => {
+            let url = `http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key=${this.api_key}&vanityurl=${name}`;
+            url = url.replace('&', '%26');
+
+            let res = await axios.get(baseUrl + url);
+            if (res.response.success !== 1) {
+                resolve(false);
+            }
+        });
+    }
+
+    getUserInfo(id) {
+
     }
 }

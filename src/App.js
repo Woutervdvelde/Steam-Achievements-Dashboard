@@ -1,25 +1,26 @@
-import logo from './logo.svg';
 import './App.css';
 import React from "react";
-import { useCookies } from 'react-cookie';
+import Cookies from 'universal-cookie';
 
 
 import SetupPopup from "./components/SetupPopup";
 
 function App() {
-    const [cookies, setCookie, removeCookie] = useCookies(['api_key', 'user_id', 'api_key_valid', 'user_id_valid']);
-    if (cookies.api_key_valid && cookies.user_id_valid) {
+    const cookies = new Cookies();
+
+    if (cookies.get('api_key') === undefined || cookies.get('user_id') === undefined) {
         return (
             <div className="App">
                 <SetupPopup/>
             </div>
         )
+    } else {
+        return (
+            <div className="App">
+                <h1>Cookies set</h1>
+            </div>
+        );
     }
-  return (
-    <div className="App">
-      <SetupPopup/>
-    </div>
-  );
 }
 
 export default App;

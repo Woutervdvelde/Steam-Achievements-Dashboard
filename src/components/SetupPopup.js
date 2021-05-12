@@ -1,5 +1,8 @@
-import React, {useState} from "react";
+import React from "react";
 import {SteamAPI} from "../util/SteamAPI";
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 export default class SetupPopup extends React.Component {
     constructor(props) {
@@ -51,8 +54,22 @@ export default class SetupPopup extends React.Component {
         if (err)
             return this.setState({button_loading: false});
 
-        let steamAPI = new SteamAPI(user_id, api_key);
-        console.log(steamAPI);
+        let steamAPI = new SteamAPI();
+
+        if (!await steamAPI.checkApiKey(api_key)) {
+            this.state.errors.api_key = steamAPI.errors.api_key;
+            return this.setState({button_loading: false});
+        } else
+            cookies.set('api_key', api_key, {path: '/'});
+
+        let checked_user_id = await steamAPI.checkUserId(user_id);
+        if (!checked_user_id) {
+            this.state.errors.user_id = steamAPI.errors.user_id;
+            return this.setState({button_loading: false});
+        } else
+            cookies.set('user_id', checked_user_id, {path: '/'});
+
+        window.location.reload(false);
     }
 
     render() {
