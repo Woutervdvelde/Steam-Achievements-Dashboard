@@ -100,7 +100,7 @@ export default class SetupPopup extends React.Component {
                                             <input name="user_id" type="text" placeholder="76561198201679638"
                                                    onChange={this.handleChange}
                                                    className="p-1 border-solid border-2 border-gray-700 rounded"/>
-                                            <div/>
+                                            <p className="text-xs">(or your steam profile link)</p>
                                             <span className='text-red-500'>{this.state.errors.user_id}</span>
                                         </div>
                                         <br/>

@@ -7,6 +7,13 @@ import Cookies from 'universal-cookie';
  * How to use:
  * You just add the entire url you would normally use to fetch the steam api
  * except you change the `&` to `%26` because this is the HTML hex value for &
+ *
+ * Response of the server:
+ * {
+ *     status: [status code] INT
+ *     error: [error message] STRING
+ *     response: [response from the steam api] JSON object
+ * }
  */
 const baseUrl = "https://woutervandervelde.com/public/index.php/api/steam?url=";
 const cookies = new Cookies();
@@ -60,8 +67,16 @@ export class SteamAPI {
 
     async checkUserId(user_id) {
         return new Promise(async resolve => {
+            if (user_id.endsWith('/')) user_id = user_id.slice(0, -1);
+            let urlMatch = /.*\.com\/id\/(?<id>.*)/gm.exec(user_id);
+            console.log(urlMatch);
+            if (urlMatch) {
+                user_id = urlMatch.groups.id;
+            }
+
             if (user_id.match(/[a-zA-Z]/gm)) {
                 let vanity_id = await this.getUserId(user_id);
+                console.log(vanity_id);
                 if (!vanity_id)
                     resolve(false);
                 this.user_id = vanity_id;
@@ -70,10 +85,11 @@ export class SteamAPI {
 
             let info = await this.getUserInfo(this.user_id);
             if (!info) {
-                this.errors.user_id = "Invalid user ID";
+                this.errors.user_id = "Invalid user ID or url";
                 resolve(false);
             }
-
+            //TODO also save info (avatar, name etc)
+            resolve(this.user_id);
         })
     }
 
@@ -84,13 +100,23 @@ export class SteamAPI {
             url = url.replace('&', '%26');
 
             let res = await axios.get(baseUrl + url);
-            if (res.response.success !== 1) {
+            console.log(res);
+            if (res.data.response.success !== 1) {
                 resolve(false);
             }
+            resolve(res.data.response.steamid);
         });
     }
 
     getUserInfo(id) {
+        return new Promise(async resolve => {
+            let url = `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${this.api_key}&steamids=${id}`;
+            url = url.replace('&', '%26');
 
+            let res = await axios.get(baseUrl + url);
+            if (res.data.status !== 200)
+                resolve(false);
+            resolve(true);
+        })
     }
 }

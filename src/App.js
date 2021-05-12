@@ -4,6 +4,7 @@ import Cookies from 'universal-cookie';
 
 
 import SetupPopup from "./components/SetupPopup";
+import Dashboard from "./components/Dashboard";
 
 function App() {
     const cookies = new Cookies();
@@ -17,7 +18,7 @@ function App() {
     } else {
         return (
             <div className="App">
-                <h1>Cookies set</h1>
+                <Dashboard/>
             </div>
         );
     }
