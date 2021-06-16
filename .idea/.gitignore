@@ -2,7 +2,7 @@
 /shelf/
 /workspace.xml
 # Datasource local storage ignored files
-/../../../../../:\git repository\React\steamstats\.idea/dataSources/
+/../../../../../../:\git repository\React\steamstats_2.0\steamstats\.idea/dataSources/
 /dataSources.local.xml
 # Editor-based HTTP Client requests
 /httpRequests/
