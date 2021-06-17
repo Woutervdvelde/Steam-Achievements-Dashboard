@@ -1,0 +1,15 @@
+@-webkit-keyframes spin {
+    0% {-webkit-transform: rotate(0)}
+    100% {-webkit-transform: rotate(1turn)}
+}
+
+.spinner {
+    display: inline-block;
+    width: 2em;
+    height: 2em;
+    vertical-align: center;
+    border: .25em solid;
+    border-right: .25em solid transparent;
+    border-radius: 50%;
+    animation: spin .75s linear infinite;
+}

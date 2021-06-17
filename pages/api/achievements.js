@@ -1,4 +1,5 @@
 import {URL} from 'url';
+import {get} from '../../helpers';
 
 export default async function handler(req, res) {
     const url = new URL(req.headers.host + req.url);
@@ -23,16 +24,4 @@ export default async function handler(req, res) {
 
     const achievements = allAchievements.map(a => ({...a, ...playerAchievements.find(a2 => a2.apiname === a.name)}));
     res.status(200).json(achievements);
-}
-
-async function get(url) {
-    try {
-        const data = await fetch(url);
-        if (data.status !== 200)
-            throw data.statusText
-        const response = await data.json();
-        return [response, null]
-    } catch (e) {
-        return [null, e]
-    }
 }
