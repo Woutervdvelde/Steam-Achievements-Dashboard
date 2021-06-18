@@ -5,3 +5,73 @@
     margin-right: auto;
     margin-left: auto;
 }
+
+.spinner {
+    display: flex;
+    justify-content: center;
+}
+
+.formContainer {
+    margin-bottom: 1rem;
+}
+
+.formInput {
+    width: 85%;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 10px 0 0 10px;
+    font-size: 1.5rem;
+}
+
+.formButton {
+    background-color: var(--accent-color);
+    color: var(--bg-dark);
+    width: 15%;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 0 10px 10px 0;
+    font-size: 1.5rem;
+    transition: all 0.15s ease-in-out;
+}
+
+.formButton:hover {
+    color: var(--text-light);
+    background-color: var(--bg-dark);
+    border: 0.01rem solid var(--accent-color);
+    padding: 0.49rem;
+}
+
+.formError {
+    color: var(--error-color);
+}
+
+.userContainer {
+    background-color: var(--bg-dark);
+    padding: 2rem;
+    border-radius: 25px;
+}
+
+.userHeader {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+.userDetailsContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.userAvatar {
+    border-radius: 5px;
+}
+
+.userDetails {
+    margin: 0 1rem 0 0;
+}
+
+.userDetailsText {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}

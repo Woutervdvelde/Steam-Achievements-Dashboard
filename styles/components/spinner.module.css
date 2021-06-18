@@ -5,11 +5,11 @@
 
 .spinner {
     display: inline-block;
-    width: 2em;
-    height: 2em;
+    width: 3em;
+    height: 3em;
     vertical-align: center;
-    border: .25em solid;
-    border-right: .25em solid transparent;
+    border: .5em solid var(--accent-color);
+    border-right: .5em solid transparent;
     border-radius: 50%;
     animation: spin .75s linear infinite;
 }

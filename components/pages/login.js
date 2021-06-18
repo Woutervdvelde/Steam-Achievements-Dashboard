@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import Image from "next/image";
 import {useCookies} from "react-cookie";
-import { get } from "../../helpers"
+import {get} from "../../helpers"
 import Spinner from "../spinner";
 import styles from "../../styles/login.module.css";
 
@@ -9,11 +9,21 @@ export default function Login() {
     const [cookies, setCookie] = useCookies();
     const [inputError, setInputError] = useState("");
     const [userData, setUserData] = useState({});
+    const [userDataLoading, setUserDataLoading] = useState(false);
     const [user, setUser] = useState("");
 
+    const setError = (message) => {
+        setInputError(message)
+        setUserDataLoading(false)
+    }
+
     const requestUser = async () => {
+        event.preventDefault()
+        setUserDataLoading(true)
+        setUserData({})
+
         if (user === "")
-            return setInputError("Please fill in a valid user name/id")
+            return setError("Please fill in a valid user name/id")
 
         let steamid = user
         if (steamid.endsWith('/')) steamid = steamid.slice(0, -1)
@@ -25,16 +35,16 @@ export default function Login() {
         if (steamid.match(/[a-zA-Z]/gm)) {
             const [data, error] = await get(`/api/userid?user=${user}`)
             if (error || data.response.success !== 1)
-                return setInputError("There was an error converting your url/name into a steam id")
-            console.log(`setting user: ${data.response.steamid}`)
+                return setError("There was an error converting your url/name into a steam id")
             steamid = data.response.steamid
         }
 
         const [data, error] = await get(`/api/userdata?user=${steamid}`)
         if (error || data.response.players.length === 0)
-            return setInputError("There was an error fetching your data")
+            return setError("There was an error fetching your data")
 
         setUserData(data.response.players[0])
+        setError("")
     }
 
     const confirmUser = async () => {
@@ -45,13 +55,32 @@ export default function Login() {
         <div className={styles.container}>
             <h1>login</h1>
             <div>
-                <label htmlFor="userInput">{inputError}</label>
-                <input id="userInput" onChange={e => setUser(e.target.value)}/>
-                <button onClick={requestUser}>Search
-                </button>
-                {Object.keys(userData).length === 0 ? <Spinner/> : (
+                <form onSubmit={requestUser} className={styles.formContainer}>
                     <div>
-                         <Image src={userData.avatarmedium} alt="Steam profile picture" layout="fill"/>
+                        <input id="userInput" onChange={e => setUser(e.target.value)} className={styles.formInput}/>
+                        <button type="button" onClick={requestUser} className={styles.formButton}>Search
+                        </button>
+                    </div>
+                    <label htmlFor="userInput" className={styles.formError}>{inputError}</label>
+                </form>
+                {userDataLoading && (
+                    <div className={styles.spinner}>
+                        <Spinner/>
+                    </div>
+                )}
+                {Object.keys(userData).length === 0 ? <div/> : (
+                    <div className={styles.userContainer}>
+                        <h1 className={styles.userHeader}>{userData.personaname} | {userData.steamid}</h1>
+                        <div className={styles.userDetailsContainer}>
+                            <div className={styles.userDetails}>
+                                <Image className={styles.userAvatar} src={userData.avatarmedium}
+                                       alt="Steam profile picture" width={64} height={64}/>
+                            </div>
+                            <div className={styles.userDetails}>
+                                <p className={styles.userDetailsText}>{userData.realname}</p>
+                                <a href={userData.profileurl} target="_blank">{userData.profileurl}</a>
+                            </div>
+                        </div>
                     </div>
                 )}
             </div>
