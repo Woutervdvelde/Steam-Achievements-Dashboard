@@ -4,6 +4,7 @@ import {useCookies} from "react-cookie";
 import {get} from "../../helpers"
 import Spinner from "../spinner";
 import styles from "../../styles/login.module.css";
+import classNames from 'classnames';
 
 export default function Login() {
     const [cookies, setCookie] = useCookies();
@@ -48,12 +49,19 @@ export default function Login() {
     }
 
     const confirmUser = async () => {
-        // setCookie('user', user, {expires: new Date(new Date().setFullYear(new Date().getFullYear() + 1))});
+        setCookie('user', userData, {expires: new Date(new Date().setFullYear(new Date().getFullYear() + 1))});
+    }
+
+    const denyUser = async () => {
+        setUserData({});
     }
 
     return (
         <div className={styles.container}>
             <h1>login</h1>
+            <p className={styles.header}>To be able to analyse your achievements, I need a bit of information from you. <br/>
+            Please fill in your steam id, steam name or your entire profile url. <br/>
+            If I show the correct profile you can proceed by clicking on 'Yup'</p>
             <div>
                 <form onSubmit={requestUser} className={styles.formContainer}>
                     <div>
@@ -79,6 +87,15 @@ export default function Login() {
                             <div className={styles.userDetails}>
                                 <p className={styles.userDetailsText}>{userData.realname}</p>
                                 <a href={userData.profileurl} target="_blank">{userData.profileurl}</a>
+                            </div>
+                        </div>
+                        <div className={styles.userConfirmContainer}>
+                            <div>
+                                <p>Is this you?</p>
+                            </div>
+                            <div>
+                                <button className={classNames(styles.userButton, styles.userConfirm)} onClick={confirmUser}>Yup</button>
+                                <button className={classNames(styles.userButton, styles.userDeny)} onClick={denyUser}>What? no!</button>
                             </div>
                         </div>
                     </div>
