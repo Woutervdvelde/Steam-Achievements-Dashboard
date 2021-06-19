@@ -53,6 +53,7 @@ export default function Login() {
     }
 
     const denyUser = async () => {
+        setUser("");
         setUserData({});
     }
 
@@ -65,7 +66,7 @@ export default function Login() {
             <div>
                 <form onSubmit={requestUser} className={styles.formContainer}>
                     <div>
-                        <input id="userInput" onChange={e => setUser(e.target.value)} className={styles.formInput}/>
+                        <input id="userInput" onChange={e => setUser(e.target.value)} value={user} className={styles.formInput}/>
                         <button type="button" onClick={requestUser} className={styles.formButton}>Search
                         </button>
                     </div>
