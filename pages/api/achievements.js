@@ -22,6 +22,16 @@ export default async function handler(req, res) {
     if (playerError) return res.status(500).json({data: null, error: "playerAchievements | " + playerError});
     const playerAchievements = playerAchievementsFetch.playerstats.achievements;
 
-    const achievements = allAchievements.map(a => ({...a, ...playerAchievements.find(a2 => a2.apiname === a.name)}));
+    const [globalAchievementsFetch, globalError] =
+        await get(`https://api.steampowered.com/ISteamUserStats/GetGlobalAchievementPercentagesForApp/v2/?${process.env.STEAM_API_KEY}&gameid=${appid}`);
+    if (globalError) return res.status(500).json({data: null, error: "globalAchievements | " + globalError});
+    console.log(globalAchievementsFetch)
+    const globalAchievements = globalAchievementsFetch.achievementpercentages.achievements;
+
+    const achievements = allAchievements.map(a => ({
+        ...a,
+        ...playerAchievements.find(a2 => a2.apiname === a.name),
+        ...globalAchievements.find(a3 => a3.name === a.name)
+    }));
     res.status(200).json(achievements);
 }
