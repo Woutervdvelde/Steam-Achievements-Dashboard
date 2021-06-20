@@ -4,13 +4,22 @@ import Navbar from "../components/navbar/navbar";
 import Header from "../components/header";
 import React from "react";
 
+function SafeHydrate({children}) {
+    return (
+        <div suppressHydrationWarning>
+            {typeof window === 'undefined' ? null : children}
+        </div>
+    )
+}
+
 function MyApp({Component, pageProps}) {
     return (
-        <CookiesProvider>
-            <Header/>
-            <Navbar/>
-            <Component {...pageProps} />
-        </CookiesProvider>
+        <SafeHydrate>
+            <CookiesProvider>
+                <Header/>
+                <Component {...pageProps} />
+            </CookiesProvider>
+        </SafeHydrate>
     )
 }
 

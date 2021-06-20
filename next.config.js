@@ -1,5 +1,5 @@
 module.exports = {
     images: {
-        domains: ['steamcdn-a.akamaihd.net'],
+        domains: ['steamcdn-a.akamaihd.net', 'media.steampowered.com'],
     },
 }
