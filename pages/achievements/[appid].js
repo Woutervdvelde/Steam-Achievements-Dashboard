@@ -3,6 +3,7 @@ import Navbar from "../../components/navbar/navbar";
 import {get} from "../../helpers";
 import {useCookies} from "react-cookie";
 import {useEffect} from "react";
+import styles from "../../styles/achievements.module.css";
 
 export default function achievements() {
     const router = useRouter()
@@ -21,9 +22,11 @@ export default function achievements() {
     })
 
     return (
-        <div>
+        <div className={styles.container}>
             <Navbar/>
-            <h1>{appid}</h1>
+            <div className={styles.content}>
+                <h1>{appid}</h1>
+            </div>
         </div>
     )
 }

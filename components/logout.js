@@ -6,6 +6,8 @@ export default function LogoutIcon() {
 
     const logout = () => {
         removeCookie('user');
+        if (window)
+            window.location.href = location.protocol + '//' + location.host;
     }
 
     return (
