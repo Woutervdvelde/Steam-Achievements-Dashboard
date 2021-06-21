@@ -1,0 +1,15 @@
+.container {
+
+}
+
+.imageContainer {
+    display: inline-block;
+}
+
+.textContainer {
+    display: inline-block;
+}
+
+.percentage {
+    color: var(--accent-dark);
+}

@@ -59,8 +59,12 @@ export default function Navbar() {
     return (
         <div className={styles.container}>
             <div className={styles.userData}>
-                <Image className={styles.userImage} src={cookies.user.avatarfull} width={50} height={50}/>
-                <h3 className={styles.userText}>{cookies.user.personaname}</h3>
+                <Link href="/">
+                    <Image className={styles.userImage} src={cookies.user.avatarfull} width={50} height={50}/>
+                </Link>
+                <Link href="/">
+                    <h3 className={styles.userText}>{cookies.user.personaname}</h3>
+                </Link>
                 <LogoutIcon/>
             </div>
             <input onChange={handleInput} className={styles.input}/>
