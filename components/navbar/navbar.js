@@ -1,8 +1,8 @@
 import Image from "next/image";
-import {useCookies} from "react-cookie";
-import {useEffect, useState} from "react";
+import { useCookies } from "react-cookie";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import {get} from "../../helpers";
+import { get } from "../../helpers";
 import styles from "../../styles/components/navbar.module.css";
 import LogoutIcon from "../logout";
 
@@ -59,22 +59,23 @@ export default function Navbar() {
     return (
         <div className={styles.container}>
             <div className={styles.userData}>
-                <Link href="/">
-                    <Image className={styles.userImage} src={cookies.user.avatarfull} width={50} height={50}/>
-                </Link>
-                <Link href="/">
-                    <h3 className={styles.userText}>{cookies.user.personaname}</h3>
-                </Link>
-                <LogoutIcon/>
+                <Image className={styles.userImage} src={cookies.user.avatarfull} width={50} height={50} />
+                <h3 className={styles.userText}>{cookies.user.personaname}</h3>
+                <LogoutIcon />
             </div>
-            <input onChange={handleInput} className={styles.input}/>
+            <div className={styles.dashboard}>
+                <Link href="/">
+                    <h3>Dashboard</h3>
+                </Link>
+            </div>
+            <input onChange={handleInput} className={styles.input} />
             <div>
-                {filteredGames.map(({appid, name, img_icon_url}) => {
+                {filteredGames.map(({ appid, name, img_icon_url }) => {
                     return (<Link href={`/achievements/${appid}`} key={appid}>
                         <div className={styles.gameItem}>
                             <div className={styles.gameItemImage}>
                                 <Image width={20} height={20}
-                                       src={`http://media.steampowered.com/steamcommunity/public/images/apps/${appid}/${img_icon_url}.jpg`}/>
+                                    src={`http://media.steampowered.com/steamcommunity/public/images/apps/${appid}/${img_icon_url}.jpg`} />
                             </div>
                             {/*TODO make text overflow and overlayed when hovered (just like steam library)*/}
                             <p className={styles.gameItemText}>{name}</p>

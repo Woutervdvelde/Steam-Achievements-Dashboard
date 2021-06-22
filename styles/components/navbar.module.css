@@ -40,6 +40,11 @@
     color: var(--text-light);
 }
 
+.dashboard {
+    margin-left: .5rem;
+    cursor: pointer;
+}
+
 .input {
     width: 90%;
     padding: .75rem;

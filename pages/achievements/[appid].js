@@ -1,18 +1,20 @@
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 import Image from "next/image";
 import Navbar from "../../components/navbar/navbar";
-import {get} from "../../helpers";
-import {useCookies} from "react-cookie";
-import {useEffect, useState} from "react";
+import { get } from "../../helpers";
+import { useCookies } from "react-cookie";
+import { useEffect, useState } from "react";
 import styles from "../../styles/achievements.module.css";
 import Achievement from "../../components/achievement";
+import useSWR from "swr";
 
 export default function achievements() {
     const router = useRouter();
     const [cookies, setCookie] = useCookies();
+    // const [gameData, setGameData] = useState({});
     const [missedAchievements, setMissedAchievements] = useState([]);
     const [achievedAchievements, setAchievedAchievements] = useState([]);
-    const {appid} = router.query;
+    const { appid } = router.query;
 
     const SortyBy = Object.freeze({
         "NAME": 1,
@@ -20,6 +22,17 @@ export default function achievements() {
         "PERCENTAGE": 3,
     });
 
+    const [gameData, gameDataError] = useSWR(`/api/game?appid=${appid}`)
+
+    const getGameData = async () => {
+        if (!appid) return
+        const [fetchedGameData, error] = await get(`/api/game?appid=${appid}`)
+        if (error)
+            return console.error(error)
+
+        if (!gameData)
+            setGameData(fetchedGameData)
+    }
 
     const getAchievements = async () => {
         if (!cookies.user.steamid || !appid) return
@@ -32,30 +45,33 @@ export default function achievements() {
         const achieved = userAchievements.filter(a => a.achieved === 1)
 
         if (missed.length !== missedAchievements.length)
-            setMissedAchievements(missed);
+            setMissedAchievements(missed)
 
         if (achieved.length !== achievedAchievements.length)
-            setAchievedAchievements(achieved);
-
-        console.log(missed)
-        console.log(achieved)
+            setAchievedAchievements(achieved)
     }
 
     useEffect(() => {
-        getAchievements();
+        // getGameData()
+        getAchievements()
     })
 
     return (
         <div className={styles.container}>
-            <Navbar/>
+            <Navbar />
             <div className={styles.content}>
-                <h1>{appid}</h1>
+                {gameData && (
+                    <div>
+                        <h1>{gameData.name}</h1>
+                        <h2>{achievedAchievements.length}/{gameData.achievements.total} achievements</h2>
+                    </div>
+                )}
                 <div>
                     <h2>Not achieved Achievements</h2>
                     <div className={styles.achievementsContainer}>
                         {missedAchievements.map(a => {
                             return (
-                                <Achievement key={a.appid} a={a}/>
+                                <Achievement key={a.appid} a={a} />
                             )
                         })}
                     </div>
@@ -65,7 +81,7 @@ export default function achievements() {
                     <div className={styles.achievementsContainer}>
                         {achievedAchievements.map(a => {
                             return (
-                                <Achievement key={a.appid} a={a}/>
+                                <Achievement key={a.appid} a={a} />
                             )
                         })}
                     </div>

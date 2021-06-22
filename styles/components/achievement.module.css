@@ -1,5 +1,12 @@
 .container {
+    margin: 1rem 1rem 1rem 0;
+    padding: .5rem;
+    background-color: var(--bg-dark);
+    border-radius: 15px;
+}
 
+.dataContainer {
+    display: flex;
 }
 
 .imageContainer {
@@ -8,6 +15,20 @@
 
 .textContainer {
     display: inline-block;
+    margin-left: .5rem;
+    padding: 0;
+}
+
+.name {
+    margin: 0 0 .25rem 0;
+}
+
+.description {
+    margin: 0;
+}
+
+.percentage {
+    margin: 0;
 }
 
 .percentage {
