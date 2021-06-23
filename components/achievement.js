@@ -11,11 +11,11 @@ export default function Achievement({ a, key }) {
                 <div className={styles.textContainer}>
                     <h3 className={styles.name}>{a.displayName}</h3>
                     <h5 className={styles.description}>{a.description}</h5>
-                    {a.achieved === 1 && (
-                        <p className={styles.percentage}>Achieved on: {new Date(a.unlocktime * 1000).toLocaleDateString()}</p>
-                    )}
                 </div>
             </div>
+            {a.achieved === 1 && (
+                <p className={styles.percentage}>Achieved on: {new Date(a.unlocktime * 1000).toLocaleDateString()}</p>
+            )}
             <p className={styles.percentage}>
                 {Math.round((a.percent + Number.EPSILON) * 100) / 100}% of players have this achievement
             </p>

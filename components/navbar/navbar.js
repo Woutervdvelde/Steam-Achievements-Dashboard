@@ -54,7 +54,7 @@ export default function Navbar() {
 
     useEffect(() => {
         getUserGames()
-    })
+    }, [])
 
     return (
         <div className={styles.container}>

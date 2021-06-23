@@ -2,6 +2,7 @@
     width: 250px;
     height: 100vh;
     display: inline-block;
+    position: sticky;
     overflow-y: scroll;
     background-color: var(--bg-dark);
 }

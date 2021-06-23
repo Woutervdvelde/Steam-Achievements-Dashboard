@@ -7,22 +7,39 @@ import { useEffect, useState } from "react";
 import styles from "../../styles/achievements.module.css";
 import Achievement from "../../components/achievement";
 import useSWR from "swr";
+import Timeline from "../../components/timeline";
 
 export default function achievements() {
     const router = useRouter();
     const [cookies, setCookie] = useCookies();
-    // const [gameData, setGameData] = useState({});
+    const [gameData, setGameData] = useState([]);
     const [missedAchievements, setMissedAchievements] = useState([]);
     const [achievedAchievements, setAchievedAchievements] = useState([]);
     const { appid } = router.query;
 
-    const SortyBy = Object.freeze({
-        "NAME": 1,
-        "DATE": 2,
-        "PERCENTAGE": 3,
+    const SortBy = Object.freeze({
+        "NAME": "displayName",
+        "DATE": "unlocktime",
+        "PERCENTAGE": "percent",
     });
 
-    const [gameData, gameDataError] = useSWR(`/api/game?appid=${appid}`)
+    const getSortedAchievements = async (achievements, sort) => {
+        if (achievements.length === missedAchievements.length) {
+            const sorted = [...missedAchievements].sort((a, b) => {
+                if (a[sort] < b[sort]) return -1;
+                if (a[sort] > b[sort]) return 1;
+                return 0
+            });
+            setMissedAchievements(sorted)
+        } else {
+            const sorted = [...achievedAchievements].sort((a, b) => {
+                if (a[sort] < b[sort]) return -1;
+                if (a[sort] > b[sort]) return 1;
+                return 0
+            });
+            setAchievedAchievements(sorted)
+        }
+    }
 
     const getGameData = async () => {
         if (!appid) return
@@ -30,7 +47,7 @@ export default function achievements() {
         if (error)
             return console.error(error)
 
-        if (!gameData)
+        if (fetchedGameData.length !== gameData.length)
             setGameData(fetchedGameData)
     }
 
@@ -52,7 +69,7 @@ export default function achievements() {
     }
 
     useEffect(() => {
-        // getGameData()
+        getGameData()
         getAchievements()
     })
 
@@ -60,14 +77,20 @@ export default function achievements() {
         <div className={styles.container}>
             <Navbar />
             <div className={styles.content}>
-                {gameData && (
+                {gameData.achievements && (
                     <div>
                         <h1>{gameData.name}</h1>
                         <h2>{achievedAchievements.length}/{gameData.achievements.total} achievements</h2>
                     </div>
                 )}
+                {/*<Timeline achievements={achievedAchievements}/>*/}
                 <div>
                     <h2>Not achieved Achievements</h2>
+                    <select onChange={e => getSortedAchievements(missedAchievements, e.target.value)}>
+                        <option value={SortBy.NAME}>Name</option>
+                        <option value={SortBy.DATE}>Date</option>
+                        <option value={SortBy.PERCENTAGE}>Percentage</option>
+                    </select>
                     <div className={styles.achievementsContainer}>
                         {missedAchievements.map(a => {
                             return (
