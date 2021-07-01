@@ -6,8 +6,6 @@ import { useCookies } from "react-cookie";
 import { useEffect, useState } from "react";
 import styles from "../../styles/achievements.module.css";
 import Achievement from "../../components/achievement";
-import useSWR from "swr";
-import Timeline from "../../components/timeline";
 
 export default function achievements() {
     const router = useRouter();
@@ -101,6 +99,11 @@ export default function achievements() {
                 </div>
                 <div>
                     <h2>Achieved Achievements</h2>
+                    <select onChange={e => getSortedAchievements(achievedAchievements, e.target.value)}>
+                        <option value={SortBy.NAME}>Name</option>
+                        <option value={SortBy.DATE}>Date</option>
+                        <option value={SortBy.PERCENTAGE}>Percentage</option>
+                    </select>
                     <div className={styles.achievementsContainer}>
                         {achievedAchievements.map(a => {
                             return (

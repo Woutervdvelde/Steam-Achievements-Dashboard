@@ -1,9 +1,8 @@
-import {URL} from 'url';
 import {get} from "../../helpers"
 
 export default async function handler(req, res) {
-    const url = new URL(req.headers.host + req.url);
-    const user = url.searchParams.get('user');
+    const { user } = req.query;
+
 
     if (!user)
         return res.status(400).json({data: null, error: "Required parameter 'user' is missing"});

@@ -12,6 +12,9 @@ export default function Dashboard() {
                 <div className={styles.content}>
                     <h1>Dashboard</h1>
                     <h2>Welcome back {cookies.user.personaname}</h2>
+                    <a href={`${cookies.user.profileurl}games/?tab=all&sort=achievements`} target="_blank">
+                        <button>See all games achievement progress</button>
+                    </a>
                 </div>
             </div>
         )
