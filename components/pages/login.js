@@ -34,7 +34,7 @@ export default function Login() {
         }
 
         if (steamid.match(/[a-zA-Z]/gm)) {
-            const [data, error] = await get(`/api/userid?user=${user}`)
+            const [data, error] = await get(`/api/userid?user=${steamid}`)
             if (error || data.response.success !== 1)
                 return setError("There was an error converting your url/name into a steam id")
             steamid = data.response.steamid
