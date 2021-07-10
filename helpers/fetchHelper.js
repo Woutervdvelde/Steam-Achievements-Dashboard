@@ -1,11 +1,4 @@
-import cookie from "cookie"
-import axios from "axios";
-
-export const fetcher = url => axios.get(url).then(res => res.data)
-
-export function parseCookies(req) {
-    return cookie.parse(req ? req.headers.cookie || "" : document.cookie)
-}
+export const fetcher = url => fetch(url).then(r => r.json())
 
 export async function get(url) {
     try {

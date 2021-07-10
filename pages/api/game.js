@@ -1,4 +1,4 @@
-import {get} from '../../helpers';
+import {get} from "../../helpers/fetchHelper";
 
 export default async function handler(req, res) {
     const { appid } = req.query;

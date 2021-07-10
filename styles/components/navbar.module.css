@@ -1,8 +1,8 @@
 .container {
-    width: 250px;
-    height: 100vh;
     display: inline-block;
     position: sticky;
+    width: 250px;
+    height: 100vh;
     overflow-y: scroll;
     background-color: var(--bg-dark);
 }
@@ -12,12 +12,12 @@
 }
 
 .container::-webkit-scrollbar-track {
-    background: var(--accent-color);        /* color of the tracking area */
+    background: var(--accent-color);
 }
 
 .container::-webkit-scrollbar-thumb {
     background-color: var(--text-light);
-    border-radius: 25px;     /* roundness of the scroll thumb */
+    border-radius: 25px;
 }
 
 .userData {
@@ -55,8 +55,11 @@
 }
 
 .gameItem {
+    display: table;
+    width: 100%;
     cursor: pointer;
-    overflow-y: auto;
+    overflow-y: scroll;
+    overflow-x: hidden;
     margin: .25rem 0 .25rem 0;
 }
 
@@ -65,16 +68,18 @@
 }
 
 .gameItemImage {
+    display: table-cell;
     margin-left: .5rem;
-    display: inline-block;
+    /*display: inline-block;*/
 }
 
 .gameItemText {
+    display: table-cell;
     margin-top: 0;
     margin-left: .5rem;
     vertical-align: middle;
     white-space: nowrap;
-    overflow: hidden;
+    overflow-y: hidden;
     font-size: .75rem;
-    display: inline-block;
+    /*display: inline-block;*/
 }
