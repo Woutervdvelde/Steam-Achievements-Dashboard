@@ -55,31 +55,29 @@
 }
 
 .gameItem {
-    display: table;
+    position: relative;
     width: 100%;
     cursor: pointer;
-    overflow-y: scroll;
     overflow-x: hidden;
     margin: .25rem 0 .25rem 0;
+    padding-top: .25rem;
 }
 
 .gameItem:hover {
     background-color: var(--bg);
+    z-index: 10;
 }
 
 .gameItemImage {
-    display: table-cell;
+    float: left;
     margin-left: .5rem;
-    /*display: inline-block;*/
+    margin-right: .5rem;
 }
 
 .gameItemText {
-    display: table-cell;
-    margin-top: 0;
-    margin-left: .5rem;
-    vertical-align: middle;
+    /*position: absolute;*/
+    /*left: 10rem;*/
+    margin: 0;
     white-space: nowrap;
-    overflow-y: hidden;
     font-size: .75rem;
-    /*display: inline-block;*/
 }
