@@ -18,8 +18,10 @@ export default function Gamebar(props) {
     const filterGames = (games, filter) => {
         let gamesFiltered
         if (filter !== null || filter !== '') {
-            gamesFiltered = games.filter(g => {
-                if (g.name.toLowerCase().startsWith(filter))
+            gamesFiltered = games.filter(game => {
+                const f = filter.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(" ");
+                const g = game.name.toLowerCase();
+                if (f.every(f => g.includes(f)))
                     return g;
                 return false;
             });
