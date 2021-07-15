@@ -1,6 +1,6 @@
 import styles from "../styles/dashboard.module.css";
 import {checkUserCookies, parseCookies} from "../helpers/cookieHelper";
-import Navbar from "../components/navbar";
+import Gamebar from "../components/gamebar";
 import useSWR from "swr";
 import { fetcher } from "../helpers/fetchHelper";
 
@@ -16,7 +16,7 @@ export default function Dashboard(props) {
 
     return (
         <div className={styles.container}>
-            <Navbar user={user}/>
+            <Gamebar user={user}/>
             <div className={styles.content}>
                 <h1>Dashboard</h1>
             </div>

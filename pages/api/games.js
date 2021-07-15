@@ -18,7 +18,7 @@ export default async function handler(req, res) {
         return res.status(400).json({data: null, error: "Required parameter 'user' is missing"});
 
     const [games, gamesError] =
-        await get(`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${process.env.STEAM_API_KEY}&include_appinfo=true&steamid=${user}`);
+        await get(`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${process.env.STEAM_API_KEY}&steamid=${user}&include_appinfo=true&&include_played_free_games=true`);
     if (gamesError) return res.status(500).json({data: null, error: gamesError});
 
     const sortedGames = sortGames(games.response.games);

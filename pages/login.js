@@ -51,7 +51,7 @@ export default function LoginPage() {
             <h1>login</h1>
             <p className={styles.header}>To be able to analyse your achievements, I need a bit of information from you. <br/>
                 Please fill in your steam id, steam name or your entire profile url. <br/>
-                If I show the correct profile you can proceed by clicking on 'Yup'</p>
+                If I show the correct profile you can proceed by clicking on &apos;Yup&apos;</p>
             <div>
                 <form onSubmit={requestUser} className={styles.formContainer}>
                     <div>
