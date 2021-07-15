@@ -74,8 +74,8 @@ export default function Navbar() {
                     return (<Link href={`/achievements/${appid}`} key={appid}>
                         <div className={styles.gameItem}>
                             <div className={styles.gameItemImage}>
-                                <Image width={20} height={20}
-                                    src={`http://media.steampowered.com/steamcommunity/public/images/apps/${appid}/${img_icon_url}.jpg`} />
+                                    {/*<Image width={20} height={20} alt={`Game icon for ${name}`}*/}
+                                    {/*       src={`http://media.steampowered.com/steamcommunity/public/images/apps/${appid}/${img_icon_url}.jpg`}/>
                             </div>
                             {/*TODO make text overflow and overlayed when hovered (just like steam library)*/}
                             <p className={styles.gameItemText}>{name}</p>
