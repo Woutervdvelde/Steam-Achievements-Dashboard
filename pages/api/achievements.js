@@ -12,6 +12,7 @@ export default async function handler(req, res) {
     const [allAchievementsFetch, allError] =
         await get(`https://api.steampowered.com/ISteamUserStats/GetSchemaForGame/v2?key=${process.env.STEAM_API_KEY}&steamid=${user}&appid=${appid}`);
     if (allError) return res.status(500).json({data: null, error: "allAchievements | " + allError});
+    if (Object.keys(allAchievementsFetch.game).length === 0) return res.status(409).json({data: null, error: "No achievements present for this game"});
     const allAchievements = allAchievementsFetch.game.availableGameStats.achievements;
 
     const [playerAchievementsFetch, playerError] =

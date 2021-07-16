@@ -7,6 +7,9 @@ import {useEffect, useState} from "react";
 import useSWR from "swr";
 import {fetcher, get} from "../../helpers/fetchHelper";
 import ErrorMessage from "../../components/errorMessage";
+import GameInfo from "../../components/game/gameInfo";
+import TimePlayed from "../../components/game/timePlayed";
+import Achievement from "../../components/achievement";
 
 export async function getServerSideProps(ctx) {
     const cookies = parseCookies(ctx);
@@ -20,29 +23,35 @@ export default function Achievements(props) {
     const { appid } = router.query;
     const user = JSON.parse(props.cookies.user)
     const [achievements, setAchievements] = useState([]);
+    const [achievementsInterval, setAchievementsInterval] = useState(10000);
     const [errorMessage, setErrorMessage] = useState(false);
     const [loading, setLoading] = useState(true);
-    const [gameData, setGameData] = useState([]);
+    const [gameData, setGameData] = useState({});
 
     const handleAchievements = (data) => {
         setLoading(false);
-        setAchievements(data);
+        if (data.error)
+            handleError("There are no achievements for this game")
+        else
+            setAchievements(data);
     }
 
     const handleError = (data) => {
         setLoading(false);
-        console.log(data);
+        setErrorMessage(data);
     }
 
     const compareAchievements = (a, b) => {
-        console.log({a, b});
+
     }
 
     const handleGameData = (data) => {
-        console.log(data)
-        if (!data.hasOwnProperty('achievements'))
-            setErrorMessage("There are no achievements for this game")
+        if (!data.hasOwnProperty('achievements')) {
+            setAchievementsInterval(0);
+            setErrorMessage("There are no achievements for this game");
+        }
 
+        console.log(data)
         setGameData(data);
     }
 
@@ -56,7 +65,7 @@ export default function Achievements(props) {
     })
 
     const {a, aError} = useSWR(`/api/achievements?user=${user.steamid}&appid=${appid}`, fetcher, {
-        refreshInterval: 10000,
+        refreshInterval: achievementsInterval,
         revalidateOnFocus: false,
         errorRetryCount: 2,
         onSuccess: handleAchievements,
@@ -69,7 +78,13 @@ export default function Achievements(props) {
             <Gamebar user={user}/>
             {loading ? <Loading/> :
                 <div className={styles.content}>
-                    <h1>{appid}</h1>
+                    {gameData &&
+                        <div className={styles.gameContainer}>
+                            <GameInfo game={gameData}/>
+                            <TimePlayed/>
+                            
+                        </div>
+                    }
                     {!errorMessage && !achievements && <Loading/>}
                     {errorMessage && <ErrorMessage message={errorMessage}/>}
                     {achievements && (
