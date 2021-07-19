@@ -17,7 +17,6 @@
 
 .container::-webkit-scrollbar-thumb {
     background-color: var(--text-light);
-    border-radius: 25px;
 }
 
 .userData {

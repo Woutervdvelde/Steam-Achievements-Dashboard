@@ -1,6 +1,6 @@
-# Steam Achievements Dashboard (SAD)
+# Steam AchievementCount Dashboard (SAD)
 ![Steam banner](https://www.vortez.net/contentteller.php?ct=news&action=file&id=18653)
-Steam Achievements Dashboard, aka SAD. A next.js app that can give you more insight in your steam achievements.  
+Steam AchievementCount Dashboard, aka SAD. A next.js app that can give you more insight in your steam achievements.  
 
 ---
 This is a project to develop react/next.js skills.  

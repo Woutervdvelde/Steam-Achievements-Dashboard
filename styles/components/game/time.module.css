@@ -1,7 +1,15 @@
 .container {
-    flex-grow: 1.25;
-    margin: .5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 1rem;
     border-radius: 15px;
+    font-size: 2rem;
     background-color: var(--bg-dark);
+}
+.time > h1 {
+    margin-bottom: 0;
+}
+.time > h5 {
+    margin-top: 0;
 }

@@ -7,12 +7,14 @@ export default function GameInfo({game}) {
     if (Object.keys(game).length === 0) return (<div><Loading/></div>)
     else return (
         <div className={styles.container}>
-            <div>
-                <Image src={game.header_image} width={230} height={107.5}/>
+            <div className={styles.item}>
+                <div className={styles.banner}>
+                    <Image src={game.header_image} width={230} height={107.5}/>
+                </div>
             </div>
             <div>
                 <h1>{game.name}</h1>
-
+                <p>{game.short_description}</p>
             </div>
         </div>
     )

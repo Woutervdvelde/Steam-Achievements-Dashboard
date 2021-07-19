@@ -10,6 +10,7 @@ import ErrorMessage from "../../components/errorMessage";
 import GameInfo from "../../components/game/gameInfo";
 import TimePlayed from "../../components/game/timePlayed";
 import Achievement from "../../components/achievement";
+import GameData from "../../components/gameData";
 
 export async function getServerSideProps(ctx) {
     const cookies = parseCookies(ctx);
@@ -78,13 +79,7 @@ export default function Achievements(props) {
             <Gamebar user={user}/>
             {loading ? <Loading/> :
                 <div className={styles.content}>
-                    {gameData &&
-                        <div className={styles.gameContainer}>
-                            <GameInfo game={gameData}/>
-                            <TimePlayed/>
-                            
-                        </div>
-                    }
+                    {gameData && <GameData game={gameData}/>}
                     {!errorMessage && !achievements && <Loading/>}
                     {errorMessage && <ErrorMessage message={errorMessage}/>}
                     {achievements && (

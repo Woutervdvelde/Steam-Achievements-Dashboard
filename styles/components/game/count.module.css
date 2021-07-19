@@ -1,0 +1,21 @@
+.container {
+    padding: 1rem;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 2rem;
+    background-color: var(--bg-dark);
+}
+
+.chartContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container > h5 {
+    margin: .5rem 0 0 0;
+}
+
+.score {
+    position: absolute;
+}
