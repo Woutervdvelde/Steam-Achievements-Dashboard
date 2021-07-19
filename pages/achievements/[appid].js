@@ -21,20 +21,24 @@ export async function getServerSideProps(ctx) {
 
 export default function Achievements(props) {
     const router = useRouter();
-    const { appid } = router.query;
+    const {appid} = router.query;
     const user = JSON.parse(props.cookies.user)
-    const [achievements, setAchievements] = useState([]);
+    const [achievements, setAchievements] = useState({});
     const [achievementsInterval, setAchievementsInterval] = useState(10000);
     const [errorMessage, setErrorMessage] = useState(false);
     const [loading, setLoading] = useState(true);
     const [gameData, setGameData] = useState({});
+    const [showHidden, setShowHidden] = useState(false);
 
     const handleAchievements = (data) => {
         setLoading(false);
         if (data.error)
-            handleError("There are no achievements for this game")
-        else
-            setAchievements(data);
+            return handleError("There are no achievements for this game")
+
+        const achievedAchievements = data.filter(a => a.achieved);
+        const lockedAchievements = data.filter(a => !a.achieved)
+        const lockedVisible = data.filter(a => !a.achieved && !a.hidden)
+        setAchievements({achieved: achievedAchievements, locked: {visible: lockedVisible, all: lockedAchievements}});
     }
 
     const handleError = (data) => {
@@ -52,7 +56,6 @@ export default function Achievements(props) {
             setErrorMessage("There are no achievements for this game");
         }
 
-        console.log(data)
         setGameData(data);
     }
 
@@ -72,7 +75,11 @@ export default function Achievements(props) {
         onSuccess: handleAchievements,
         onError: handleError,
         compare: compareAchievements
-    })
+    });
+
+    const showHiddenState = (e) => {
+        setShowHidden(e.target.checked);
+    }
 
     return (
         <div className={styles.container}>
@@ -82,11 +89,31 @@ export default function Achievements(props) {
                     {gameData && <GameData game={gameData} achievements={achievements}/>}
                     {!errorMessage && !achievements && <Loading/>}
                     {errorMessage && <ErrorMessage message={errorMessage}/>}
-                    {achievements && (
+                    {Object.keys(achievements).length && (
                         <div>
-                            {achievements.map(a => {
-                                return (<Achievement key={a.name} a={a}/>)
-                            })}
+                            <div>
+                                <h1>Locked achievements</h1>
+                                <label for="hiddenAchievements">Show hidden achievements: </label>
+                                <input id="hiddenAchievements" type="checkbox" onChange={showHiddenState}/>
+                            </div>
+                            <div className={styles.achievementsContainer}>
+                                {showHidden
+                                    ? achievements.locked.all.map(a => {
+                                        return (<Achievement key={a.name} a={a}/>)
+                                    })
+                                    : achievements.locked.visible.map(a => {
+                                        return (<Achievement key={a.name} a={a}/>)
+                                    })
+                                }
+                            </div>
+                            <div>
+                                <h1>Achieved achievements</h1>
+                            </div>
+                            <div className={styles.achievementsContainer}>
+                                {achievements.achieved.map(a => {
+                                    return (<Achievement key={a.name} a={a}/>)
+                                })}
+                            </div>
                         </div>
                     )}
                 </div>

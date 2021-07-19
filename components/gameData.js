@@ -11,10 +11,10 @@ export default function GameData({game, achievements}) {
         <div className={styles.gameContainer}>
             <GameInfo game={game}/>
             <TimePlayed/>
-            {achievements.length ?
+            {Object.keys(achievements).length ?
                 <AchievementCount
-                    value={achievements.filter(a => a.achieved).length}
-                    total={achievements.length}/> :
+                    value={achievements.achieved.length}
+                    total={achievements.achieved.length + achievements.locked.all.length}/> :
                 <AchievementCount/>
             }
         </div>

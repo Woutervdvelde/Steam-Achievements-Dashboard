@@ -31,7 +31,9 @@ export default function AchievementCount({value, total}) {
         <div className={styles.container}>
             <div className={styles.chartContainer}>
                 <h4 className={styles.score}>
-                    {value !== undefined && total !== undefined ? value + "/" + total : "N/A"}
+                    {value !== undefined && total !== undefined
+                        ? value + "/" + total
+                        : "N/A"}
                 </h4>
                 <Doughnut
                     data={data}
