@@ -4,13 +4,19 @@ import GameInfo from "./game/gameInfo";
 import TimePlayed from "./game/timePlayed";
 import AchievementCount from "./game/achievementCount";
 
-export default function GameData({game}) {
-    if (!game) return <Loading/>
+export default function GameData({game, achievements}) {
+    console.log(game)
+    if (!Object.keys(game).length) return <Loading/>
     if (game) return (
         <div className={styles.gameContainer}>
             <GameInfo game={game}/>
             <TimePlayed/>
-            <AchievementCount value={15} total={20}/>
+            {achievements.length ?
+                <AchievementCount
+                    value={achievements.filter(a => a.achieved).length}
+                    total={achievements.length}/> :
+                <AchievementCount/>
+            }
         </div>
     )
 }

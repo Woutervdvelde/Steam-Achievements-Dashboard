@@ -79,13 +79,13 @@ export default function Achievements(props) {
             <Gamebar user={user}/>
             {loading ? <Loading/> :
                 <div className={styles.content}>
-                    {gameData && <GameData game={gameData}/>}
+                    {gameData && <GameData game={gameData} achievements={achievements}/>}
                     {!errorMessage && !achievements && <Loading/>}
                     {errorMessage && <ErrorMessage message={errorMessage}/>}
                     {achievements && (
                         <div>
                             {achievements.map(a => {
-                                return (<p key={a.name}>{a.name}</p>)
+                                return (<Achievement key={a.name} a={a}/>)
                             })}
                         </div>
                     )}

@@ -1,9 +1,9 @@
 import Image from "next/image";
 import styles from "../styles/components/achievement.module.css";
 
-export default function Achievement({ a, key }) {
+export default function Achievement({ a }) {
     return (
-        <div key={key} className={styles.container}>
+        <div className={styles.container}>
             <div className={styles.dataContainer}>
                 <div className={styles.imageContainer}>
                     <Image src={a.icon} width={50} height={50} alt={`Steam achievement: ${a.name}`}/>
