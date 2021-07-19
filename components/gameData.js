@@ -5,7 +5,7 @@ import TimePlayed from "./game/timePlayed";
 import AchievementCount from "./game/achievementCount";
 
 export default function GameData({game, achievements}) {
-    console.log(game)
+    console.log(achievements)
     if (!Object.keys(game).length) return <Loading/>
     if (game) return (
         <div className={styles.gameContainer}>

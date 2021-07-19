@@ -2,6 +2,8 @@ import {Doughnut} from 'react-chartjs-2';
 import styles from "../../styles/components/game/count.module.css";
 
 export default function AchievementCount({value, total}) {
+    console.log(value)
+    console.log(total)
     const data = {
         datasets: [{
             data: [value ? value : 0, total? total - value : 100],
@@ -29,7 +31,7 @@ export default function AchievementCount({value, total}) {
         <div className={styles.container}>
             <div className={styles.chartContainer}>
                 <h4 className={styles.score}>
-                    {value && total ? value + "/" + total : "N/A"}
+                    {value !== undefined && total !== undefined ? value + "/" + total : "N/A"}
                 </h4>
                 <Doughnut
                     data={data}
