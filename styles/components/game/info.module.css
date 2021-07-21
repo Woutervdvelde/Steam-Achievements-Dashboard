@@ -10,12 +10,14 @@
     grid-gap: 1rem;
 }
 
-.item {
-    display: inline-block;
-}
-
 .banner {
     height: 100%;
     display: flex;
     align-items: center;
+}
+
+@media only screen and (min-width: 1024px) {
+    .container {
+        display: block;
+    }
 }

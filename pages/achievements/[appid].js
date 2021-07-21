@@ -1,7 +1,6 @@
 import {useRouter} from "next/router";
 import Gamebar from "../../components/gamebar";
 import {checkUserCookies, parseCookies} from "../../helpers/cookieHelper";
-import styles from "../../styles/achievements.module.css";
 import Loading from "../../components/loading";
 import {useEffect, useState} from "react";
 import useSWR from "swr";
@@ -11,6 +10,7 @@ import GameInfo from "../../components/game/gameInfo";
 import TimePlayed from "../../components/game/timePlayed";
 import Achievement from "../../components/achievement";
 import GameData from "../../components/gameData";
+import styles from "../../styles/achievements.module.css";
 
 export async function getServerSideProps(ctx) {
     const cookies = parseCookies(ctx);
@@ -84,6 +84,7 @@ export default function Achievements(props) {
     return (
         <div className={styles.container}>
             <Gamebar user={user}/>
+            <div className={styles.placeholder}> </div>
             {loading ? <Loading/> :
                 <div className={styles.content}>
                     {gameData && <GameData game={gameData} achievements={achievements}/>}
@@ -93,7 +94,7 @@ export default function Achievements(props) {
                         <div>
                             <div>
                                 <h1>Locked achievements</h1>
-                                <label for="hiddenAchievements">Show hidden achievements: </label>
+                                <label htmlFor="hiddenAchievements">Show hidden achievements: </label>
                                 <input id="hiddenAchievements" type="checkbox" onChange={showHiddenState}/>
                             </div>
                             <div className={styles.achievementsContainer}>
