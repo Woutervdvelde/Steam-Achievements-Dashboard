@@ -1,10 +1,11 @@
-# Steam Achievements Dashboard (SAD)
+# Steam Achievements Dashboard (SAD) | V1.0 (Deprecated)
 ![Steam banner](https://www.vortez.net/contentteller.php?ct=news&action=file&id=18653)
 Steam Achievements Dashboard, aka SAD. A next.js app that can give you more insight in your steam achievements.  
-
+Be aware that at the time of writing `V2.0` is being worked on and going to be the new standard until the next version arrives.  
+See `V2.0`'s `README.md` for the latest news.
 ---
-This is a project to develop react/next.js skills.  
-  
+This is a project to develop react/next.js skills.
+
 It makes use of cookies, the only thing you need to fill in at start is your steamid.  
 Making this way it allowed me to run this without an account system and having to hook up a database.  
 (which also goes against the terms of use of the steam api key)
