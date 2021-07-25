@@ -6,7 +6,7 @@ export default function Achievement({ a }) {
         <div className={styles.container}>
             <div className={styles.dataContainer}>
                 <div className={styles.imageContainer}>
-                    <Image src={a.icon} width={50} height={50} alt={`Steam achievement: ${a.name}`}/>
+                    <img src={a.icon} width={50} height={50} alt={`Steam achievement: ${a.name}`}/>
                 </div>
                 <div className={styles.textContainer}>
                     <h3 className={styles.name}>{a.displayName}</h3>

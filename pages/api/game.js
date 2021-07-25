@@ -8,6 +8,8 @@ export default async function handler(req, res) {
 
     const [game, gameError] =
         await get(`https://store.steampowered.com/api/appdetails?appids=${appid}`);
+
+    if (!game[appid].success) return res.status(500).json({data: null, error: "There was an error fetching the game data"});
     if (gameError) return res.status(500).json({data: null, error: gameError});
 
     //TODO get playtime, filter appids not working atm
