@@ -9,7 +9,7 @@ export default function GameInfo({game}) {
         <div className={styles.container}>
             <div className={styles.item}>
                 <div className={styles.banner}>
-                    <Image src={game.header_image} width={230} height={107.5}/>
+                    <Image src={game.header_image} width={230} height={107.5} alt={`header image for the game ${game.name}`}/>
                 </div>
             </div>
             <div>

@@ -6,6 +6,7 @@ export default function Achievement({ a }) {
         <div className={styles.container}>
             <div className={styles.dataContainer}>
                 <div className={styles.imageContainer}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={a.icon} width={50} height={50} alt={`Steam achievement: ${a.name}`}/>
                 </div>
                 <div className={styles.textContainer}>

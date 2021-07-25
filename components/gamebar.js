@@ -56,6 +56,7 @@ export default function Gamebar(props) {
                                 <div className={styles.gameItemImage}>
                                     {/*<Image width={20} height={20} alt={`Game icon for ${name}`}*/}
                                     {/*       src={`http://media.steampowered.com/steamcommunity/public/images/apps/${appid}/${img_icon_url}.jpg`}/>*/}
+                                    {/* eslint-disable-next-line @next/next/no-img-element */}
                                     <img width={20} height={20} alt={`Game icon for ${name}`}
                                            src={`http://media.steampowered.com/steamcommunity/public/images/apps/${appid}/${img_icon_url}.jpg`}/>
                                 </div>

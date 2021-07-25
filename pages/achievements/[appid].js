@@ -18,6 +18,7 @@ export async function getServerSideProps(ctx) {
     return {props: {cookies}}
 }
 
+//TODO fix the freaking 0 appearing on pages without achievements. Can't find it anywhere in the code??!!
 export default function Achievements(props) {
     const router = useRouter();
     const {appid} = router.query;
@@ -51,7 +52,6 @@ export default function Achievements(props) {
     }
 
     const compareAchievements = (a, b) => {
-        console.log("compare")
         if (!deepEqual(a, b)) {
             handleAchievements(b)
             if (!a) return;
